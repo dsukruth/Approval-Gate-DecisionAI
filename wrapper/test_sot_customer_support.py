@@ -257,5 +257,23 @@ class RoundTwoFalseBlocks(unittest.TestCase):
         self.assertIn(HOLD, levels("Happy to refund you as a one-time courtesy."))
 
 
+class ExplicitPromises(unittest.TestCase):
+    """Reported in the console: an explicit promise with a date was approved."""
+
+    def test_explicit_promise_with_a_date_holds(self):
+        self.assertIn(HOLD, levels("I promise we'll have the new dashboard ready for you by Friday."))
+        self.assertIn(HOLD, levels("You can count on the migration being finished by Monday."))
+        self.assertIn(HOLD, levels("We'll have the reporting page live next week."))
+
+    def test_explicit_promise_without_a_date_holds(self):
+        self.assertIn(HOLD, levels("I can assure you this will never break again."))
+
+    def test_courtesy_follow_ups_and_plain_readiness_pass(self):
+        self.assertEqual(levels("I'll get back to you by Friday."), set())
+        self.assertEqual(levels("I will follow up by end of day."), set())
+        self.assertEqual(levels("Your account will be ready to use once you confirm your email."), set())
+        self.assertEqual(levels("We can't promise a date, but I've passed your request on."), set())
+
+
 if __name__ == "__main__":
     unittest.main()

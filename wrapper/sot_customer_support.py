@@ -54,6 +54,9 @@ PROMISE_OBJECTS = re.compile(r"\b(ship|ships|shipping|shipped|build|built|releas
                              r"functionality|exception|waive[sd]?|override|extend(?:ed)? (?:your|the) (?:trial|refund|deadline)|"
                              r"extra (?:discount|month|months|days|week)|free (?:month|months|upgrade|extension)|"
                              r"special (?:deal|price|pricing|discount)|free of charge|made available|roll(?:ing)? out to|coming to)\b", re.I)
+STRONG_PROMISE = re.compile(r"\b(i promise|we promise|i guarantee|we guarantee|i can assure you|i assure you|"
+                            r"you can count on|you have my word)\b", re.I)
+DELIVERY_STATES = re.compile(r"\b(ready|live|done|finished|complete|completed|in place|up and running)\b", re.I)
 FIX_OBJECTS = re.compile(r"\b(fix|fixed|patch|patched|deploy|deployed|resolve[sd]?)\b", re.I)
 WHEN_PHRASES = re.compile(r"\b(?:by|before|until) (?:this |next |the )?(?:end of (?:the |this |next )?(?:day|week|month|quarter|year|sprint)|"
                           r"eod|monday|tuesday|wednesday|thursday|friday|saturday|sunday|tomorrow|tonight|q[1-4]|january|february|"
@@ -314,7 +317,9 @@ def check_commitments(sentence):
     dated = bool(WHEN_PHRASES.search(sentence))
     feature_promise = PROMISE_OBJECTS.search(sentence) and (commits or (dated and not declined))
     fix_by_date = FIX_OBJECTS.search(sentence) and dated
-    if feature_promise or fix_by_date or exceptions:
+    delivery_by_date = DELIVERY_STATES.search(sentence) and dated and not declined
+    explicit = any(not _negated(sentence, m) for m in STRONG_PROMISE.finditer(sentence)) and not declined
+    if feature_promise or fix_by_date or delivery_by_date or explicit or exceptions:
         return [_finding(HOLD, "Agent promises a feature, delivery or exception (policies.json: can_promise_product_features=false); needs a manager.",
                          signal="promise", source="policies.json")]
     return []
