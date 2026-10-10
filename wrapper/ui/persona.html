@@ -1,79 +1,156 @@
 <!doctype html>
 <!--
-  YOUR PERSONA PAGE. This is a skeleton; the UI is yours to design (25 points, optional).
-  Any approach is fine: edit this file, replace it with a built React/Vue/Svelte app in this folder,
-  or write plain JS. wrapper/serve.py serves everything in wrapper/ui/, with persona.html at "/".
-  Offline only: no CDNs or external services at demo time.
-
-  WHAT THE PAGE MUST DO (what judges score)
-    1. SEND AN INPUT, GET A RESPONSE: a draft goes to POST /decide (your wrapper), and the page shows the
-       decision, the reason, the evidence, and whether the mock action ran.
-    2. SIMULATE THE ACTION FROM A TEST INPUT: let the user pick a sample input (GET /api/samples?persona=...),
-       send it, and show the gate working: APPROVE -> the action ran; HOLD/BLOCK -> the action did NOT run.
-    3. Make it usable by someone in your persona's job: clear risk, errors shown plainly, a review step.
-
-  RULES
-    - Decisions come only from POST /decide. Do not decide, call the mock, or run the action in the browser.
-    - Latest test-run results are NOT your job: run `python3 gate.py results` for the color-coded viewer.
+  Approval Gate persona page: customer_support (Lumen Cloud, fictional).
+  Offline and self-contained: no CDNs, fonts, images or external scripts.
+  The page never decides. It sends the draft to POST /decide and only displays what the wrapper returns.
+  All server and user strings are rendered with textContent / DOM APIs, never innerHTML.
 -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>TODO: your page title</title>
-<style>
-  /* TODO: design it. Think about who uses this: the person who is about to send / submit / publish. */
-  body { font: 16px/1.5 system-ui, sans-serif; max-width: 44rem; margin: 2rem auto; padding: 0 1rem; }
-  textarea { width: 100%; min-height: 8rem; }
-</style>
+<meta name="color-scheme" content="light dark">
+<title>Approval Gate - Lumen Cloud support</title>
+<link rel="stylesheet" href="persona.css">
 </head>
 <body>
-<h1>TODO: name this screen for your persona's job</h1>
+<header class="topbar">
+  <div class="brand">
+    <h1>Approval Gate</h1>
+    <span class="divider" aria-hidden="true"></span>
+    <span class="context">Lumen Cloud support</span>
+  </div>
+  <p class="topnote">Mock send_email action. No real messages are sent.</p>
+</header>
 
-<!-- TODO (1): inputs. Text is required; context is a JSON object your persona rules may use. -->
-<label for="text">Draft</label>
-<textarea id="text"></textarea>
-<button id="check">Check</button>
+<main class="layout">
+  <div class="col">
+    <section id="compose" class="panel" aria-labelledby="compose-title">
+      <div class="panel-head"><h2 id="compose-title">Draft reply</h2></div>
+      <form id="compose-form" class="panel-body" novalidate>
+        <div class="field">
+          <label for="sample">Practice sample</label>
+          <div class="select-wrap">
+            <select id="sample" aria-describedby="sample-status" disabled>
+              <option value="">Loading samples...</option>
+            </select>
+          </div>
+          <p id="sample-status" class="hint">Choosing a sample fills in the email and customer context. Then choose Check and send.</p>
+        </div>
 
-<!-- TODO (2): sample picker. Fill this from /api/samples (see loadSamples below). -->
-<select id="samples"></select>
-<button id="simulate">Simulate with this sample</button>
+        <div class="field">
+          <div class="label-row">
+            <label for="body">Email body</label>
+            <span id="counter" class="counter">0 / 20,000</span>
+          </div>
+          <textarea id="body" name="body" rows="9" spellcheck="true" aria-describedby="body-error body-hint counter"></textarea>
+          <p id="body-error" class="field-error" hidden></p>
+          <p id="body-hint" class="hint">Plain text, up to 20,000 characters. The gate checks each sentence.</p>
+        </div>
 
-<!-- TODO (3): present the result for a human, not as raw JSON. Replace this <pre>. -->
-<pre id="out"></pre>
+        <fieldset class="field">
+          <legend>Customer context</legend>
+          <div class="context-grid">
+            <div>
+              <label for="plan">Plan</label>
+              <div class="select-wrap">
+                <select id="plan">
+                  <option value="">Unknown</option>
+                  <option value="Starter">Starter</option>
+                  <option value="Pro">Pro</option>
+                  <option value="Business">Business</option>
+                  <option value="Enterprise">Enterprise</option>
+                </select>
+              </div>
+            </div>
+            <div>
+              <label for="tenure">Tenure in months</label>
+              <input id="tenure" type="number" inputmode="numeric" min="0" max="1200" step="1" placeholder="Unknown" aria-describedby="tenure-error context-hint">
+            </div>
+          </div>
+          <p id="tenure-error" class="field-error" hidden></p>
+          <p id="context-hint" class="hint">Used for discount eligibility. Leave a field unknown if you are not sure.</p>
+        </fieldset>
 
-<script>
-// Set this to the persona you chose: customer_support | paralegal | financial_analyst
-const PERSONA = "customer_support";
+        <div class="actions">
+          <button type="submit" id="submit" class="btn btn-primary">Check and send</button>
+          <span class="hint">or press <kbd id="shortcut">Ctrl+Enter</kbd></span>
+        </div>
+        <p class="hint actions-note">The email is sent only when the gate returns APPROVE.</p>
+      </form>
+    </section>
 
-// Plumbing: the one call every version of this page makes. Returns {decision, reason, evidence, action_executed, ...}.
-async function decide(text, context = {}) {
-  const response = await fetch("/decide", { method: "POST", headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ text, persona: PERSONA, context }) });
-  const body = await response.json();
-  if (!response.ok) throw new Error(body.error || "Request failed");
-  return body;
-}
+    <section id="history" class="panel" aria-labelledby="history-title">
+      <div class="panel-head">
+        <h2 id="history-title">Session history</h2>
+        <span class="hint">Last 8 decisions</span>
+      </div>
+      <div class="panel-body">
+        <p id="history-empty" class="hint">Decisions from this session appear here. Select one to show it again.</p>
+        <ol id="history-list" class="history-list"></ol>
+      </div>
+    </section>
+  </div>
 
-// Plumbing: sample inputs from the practice set: [{id, text, context}, ...]
-async function loadSamples() {
-  const response = await fetch("/api/samples?persona=" + PERSONA);
-  return (await response.json()).samples;
-}
+  <div class="col">
+    <section id="result" class="panel result-panel" aria-labelledby="result-title">
+      <div class="panel-head">
+        <h2 id="result-title">Decision</h2>
+        <button type="button" id="copy-json" class="btn btn-ghost" hidden>Copy audit JSON</button>
+      </div>
+      <div id="result-body" class="panel-body" aria-live="polite">
+        <div class="empty">
+          <p class="empty-title">No decision yet</p>
+          <p>Pick a practice sample or write a reply, then choose Check and send.</p>
+          <p>The gate returns APPROVE, HOLD FOR REVIEW or BLOCK with a checklist of every signal, each sentence with its findings, and a suggested fix when a price or policy value is wrong. The mock email is sent only on APPROVE.</p>
+        </div>
+      </div>
+    </section>
+  </div>
 
-// TODO: show the result. Decision, reason, and evidence are what a person needs to decide; also show
-// whether the action ran (result.action_executed). Handle loading and errors (including a slow or down Ezio).
-function showResult(result) {
-  document.getElementById("out").textContent = JSON.stringify(result, null, 2);
-}
+  <section class="panel checks" aria-labelledby="checks-title">
+    <div class="panel-head"><h2 id="checks-title">What the gate checks</h2></div>
+    <div class="panel-body">
+      <div class="checks-grid">
+        <div>
+          <h3>Prices and policies</h3>
+          <p>Prices, discounts and eligibility, stacking, refunds, free trials and first response times are compared with price_sheet.csv and policies.json. A contradiction blocks.</p>
+          <ul class="facts">
+            <li><span class="mono">$19 / $49 / $99</span> per month for Starter, Pro, Business</li>
+            <li>Loyalty <span class="mono">15%</span> for Pro or Business with <span class="mono">12+</span> months</li>
+            <li>Annual billing <span class="mono">20%</span>, discounts never stack</li>
+            <li>Refunds <span class="mono">30</span> days monthly, <span class="mono">14</span> days annual</li>
+            <li>Free trial <span class="mono">14</span> days on Pro and Business</li>
+            <li>First response <span class="mono">48h / 24h / 4h</span></li>
+          </ul>
+        </div>
+        <div>
+          <h3>Promises, hype and flattery</h3>
+          <p>Promising features, delivery dates or exceptions holds the email for a manager.</p>
+          <p>Hype, guarantees and agreeing with a customer's wrong claim also hold it, even when every number is right.</p>
+        </div>
+        <div>
+          <h3>Ezio public fact-checks</h3>
+          <p>Ezio checks public claims such as laws and regulations. A contradicted claim blocks. A supported claim needs nothing more.</p>
+        </div>
+        <div>
+          <h3>Ezio tone, bias and agreement</h3>
+          <p>A score below the minimums in policy.json holds the email for review.</p>
+        </div>
+        <div>
+          <h3>Ezio overall tier</h3>
+          <p>Ezio's tier maps to a decision in policy.json. Across all signals the strictest one wins: BLOCK, then HOLD FOR REVIEW, then APPROVE.</p>
+        </div>
+        <div>
+          <h3>Laya (optional)</h3>
+          <p>A local model that can only add a hold when it reads a promise. It never approves or blocks, and shows as skipped when it is off.</p>
+        </div>
+      </div>
+      <p class="hint checks-foot">When Ezio is down the gate fails closed: it never approves, it holds for review, or blocks when our own data already proves a fact wrong. This page never decides. Every decision comes from the wrapper's POST /decide, and the mock send_email action runs on the server only after APPROVE.</p>
+    </div>
+  </section>
+</main>
 
-// TODO: wire the buttons. Disable them while a request is running; catch errors and show them.
-document.getElementById("check").onclick = async () => {
-  showResult(await decide(document.getElementById("text").value));
-};
-
-// TODO: populate #samples from loadSamples(), then make "Simulate" send the chosen sample's text and context
-// through decide() and show clearly whether the action ran.
-</script>
+<script src="persona.js"></script>
 </body>
 </html>
