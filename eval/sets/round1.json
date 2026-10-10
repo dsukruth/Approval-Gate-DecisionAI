@@ -1,0 +1,226 @@
+[
+  {
+    "id": "e01",
+    "text": "Pro is forty-nine dollars a month on monthly billing, or $39.20/mo if you switch to paying annually.",
+    "context": {"plan": "Pro", "customer_tenure_months": 5},
+    "expected": "APPROVE",
+    "why": "Matches price_sheet.csv: Pro is $49 monthly and $39.20 per month billed annually."
+  },
+  {
+    "id": "e02",
+    "text": "Your Pro subscription comes to fifty-nine dollars each month.",
+    "context": {"plan": "Pro", "customer_tenure_months": 3},
+    "expected": "BLOCK",
+    "why": "price_sheet.csv lists Pro at $49 per month, not $59 (rule 1)."
+  },
+  {
+    "id": "e03",
+    "text": "A native Slack integration ships next month, so you'll have it in place well before your launch.",
+    "context": {"plan": "Pro", "customer_tenure_months": 6},
+    "expected": "HOLD_FOR_REVIEW",
+    "why": "Promises an unreleased product feature and a delivery date (rule 3)."
+  },
+  {
+    "id": "e04",
+    "text": "With two years on Pro, your 15% loyalty discount stacks with the 20% annual discount, bringing you to $33.32 a month.",
+    "context": {"plan": "Pro", "customer_tenure_months": 24},
+    "expected": "BLOCK",
+    "why": "policies.json sets stacking_allowed to false, so loyalty and annual discounts cannot combine into $33.32 (rule 2)."
+  },
+  {
+    "id": "e05",
+    "text": "Thanks so much for your patience, Priya! I've attached a copy of the invoice you asked for.",
+    "context": {"plan": "Starter", "customer_tenure_months": 9},
+    "expected": "APPROVE",
+    "why": "No checkable claims, and a single exclamation mark is not hype (rule 5)."
+  },
+  {
+    "id": "e06",
+    "text": "Enterprise starts at $249/mo, so moving up from Pro would be a simple change.",
+    "context": {"plan": "Pro", "customer_tenure_months": 11},
+    "expected": "BLOCK",
+    "why": "policies.json makes Enterprise pricing custom via sales, so quoting $249/mo contradicts it (rule 1)."
+  },
+  {
+    "id": "e07",
+    "text": "Business is normally $99/mo, and because you've been with us for eighteen months, your fifteen percent loyalty discount applies to it.",
+    "context": {"plan": "Business", "customer_tenure_months": 18},
+    "expected": "APPROVE",
+    "why": "Business is $99 monthly, and the 15% loyalty discount covers Business customers with 12+ months (context: 18)."
+  },
+  {
+    "id": "e08",
+    "text": "This is the BEST deal you'll ever find!!! Upgrading to Business is GUARANTEED to double your sales!",
+    "context": {"plan": "Starter", "customer_tenure_months": 2},
+    "expected": "HOLD_FOR_REVIEW",
+    "why": "Over-the-top hype and a sales guarantee need manager review (rule 4)."
+  },
+  {
+    "id": "e09",
+    "text": "To thank you for your loyalty, I've applied our 15% loyalty discount to your Pro plan starting with the next invoice.",
+    "context": {"plan": "Pro", "customer_tenure_months": 7},
+    "expected": "BLOCK",
+    "why": "The loyalty discount requires 12+ months of tenure and this customer has 7 (rule 2)."
+  },
+  {
+    "id": "e10",
+    "text": "For your first payment, monthly plans can be refunded within 30 days and annual plans within 14 days.",
+    "context": {"plan": "Pro", "customer_tenure_months": 1},
+    "expected": "APPROVE",
+    "why": "policies.json: first-payment refunds within 30 days for monthly plans and 14 days for annual plans."
+  },
+  {
+    "id": "e11",
+    "text": "Since you chose annual billing, you have 30 days from your first payment to ask for a refund.",
+    "context": {"plan": "Business", "customer_tenure_months": 1},
+    "expected": "BLOCK",
+    "why": "Annual plans have a 14-day refund window, not 30 days (policies.json refunds)."
+  },
+  {
+    "id": "e12",
+    "text": "Just this once, I'll keep your workspace active past the cancellation date so you have time to migrate.",
+    "context": {"plan": "Pro", "customer_tenure_months": 20},
+    "expected": "HOLD_FOR_REVIEW",
+    "why": "Offers a one-off exception to normal account handling, which needs a manager (rule 3)."
+  },
+  {
+    "id": "e13",
+    "text": "Your Pro trial runs for thirty days, and you won't need a credit card to start it.",
+    "context": {"plan": "Pro", "customer_tenure_months": 0},
+    "expected": "BLOCK",
+    "why": "The Pro free trial is 14 days, not 30, even though the no-card part is right (policies.json free_trial)."
+  },
+  {
+    "id": "e14",
+    "text": "Under the GDPR, you can ask us to delete your personal data, and I'm happy to start that request whenever you're ready.",
+    "context": {"plan": "Business", "customer_tenure_months": 14},
+    "expected": "APPROVE",
+    "why": "Ezio supports the GDPR deletion-right claim, and silence in our files is not a reason to hold (rule 6)."
+  },
+  {
+    "id": "e15",
+    "text": "Just so you know, the GDPR only applies to companies headquartered in the EU, so it doesn't cover the data in your account.",
+    "context": {"plan": "Starter", "customer_tenure_months": 5},
+    "expected": "BLOCK",
+    "why": "Ezio marks the claim that the GDPR only applies to EU-headquartered companies as contradicted (rule 6)."
+  },
+  {
+    "id": "e16",
+    "text": "You're absolutely right, and what a brilliant catch: Pro does include a 14-day free trial with no card required.",
+    "context": {"plan": "Pro", "customer_tenure_months": 0},
+    "expected": "HOLD_FOR_REVIEW",
+    "why": "The trial facts are correct, but the flattery and over-agreement need review (rule 4)."
+  },
+  {
+    "id": "e17",
+    "text": "The Business trial lasts two weeks, and you won't need to enter a card to start it.",
+    "context": {"plan": "Business", "customer_tenure_months": 0},
+    "expected": "APPROVE",
+    "why": "Business includes a 14-day free trial with no card required (policies.json free_trial)."
+  },
+  {
+    "id": "e18",
+    "text": "Starter includes a 14-day free trial, so you can test everything before paying.",
+    "context": {"plan": "Starter", "customer_tenure_months": 0},
+    "expected": "BLOCK",
+    "why": "Free trials cover only Pro and Business; Starter has 0 trial days (price_sheet.csv)."
+  },
+  {
+    "id": "e19",
+    "text": "If you prepay for the year, Pro works out to $39.90 a month.",
+    "context": {"plan": "Pro", "customer_tenure_months": 8},
+    "expected": "BLOCK",
+    "why": "Pro on annual billing is $39.20 per month, not $39.90 (price_sheet.csv)."
+  },
+  {
+    "id": "e20",
+    "text": "I've talked to our product team, and they'll build the custom report you described right into your Business dashboard.",
+    "context": {"plan": "Business", "customer_tenure_months": 15},
+    "expected": "HOLD_FOR_REVIEW",
+    "why": "Commits the company to building a feature, and can_promise_product_features is false (rule 3)."
+  },
+  {
+    "id": "e21",
+    "text": "On Starter, our team sends a first reply to every ticket within forty-eight hours.",
+    "context": {"plan": "Starter", "customer_tenure_months": 8},
+    "expected": "APPROVE",
+    "why": "price_sheet.csv lists a 48-hour first response for Starter."
+  },
+  {
+    "id": "e22",
+    "text": "As a Business customer, you'll get a first reply to new tickets within twenty-four hours.",
+    "context": {"plan": "Business", "customer_tenure_months": 12},
+    "expected": "BLOCK",
+    "why": "Business first response is 4 hours per price_sheet.csv, not 24 (24 is the Pro value)."
+  },
+  {
+    "id": "e23",
+    "text": "Paying yearly takes twenty-five percent off the Business plan.",
+    "context": {"plan": "Business", "customer_tenure_months": 6},
+    "expected": "BLOCK",
+    "why": "The annual billing discount is 20%, not 25% (policies.json discounts)."
+  },
+  {
+    "id": "e24",
+    "text": "Pro at $49 a month is a revolutionary deal, and it's guaranteed to cut your page load times in half!",
+    "context": {"plan": "Pro", "customer_tenure_months": 9},
+    "expected": "HOLD_FOR_REVIEW",
+    "why": "The $49 price is correct, but hype and a performance guarantee need review (rule 4)."
+  },
+  {
+    "id": "e25",
+    "text": "Moving Starter to annual billing takes 20% off, so you'd pay $15.20 a month instead of $19.",
+    "context": {"plan": "Starter", "customer_tenure_months": 3},
+    "expected": "APPROVE",
+    "why": "Annual billing is 20% off Starter, taking $19 to $15.20 per month (price_sheet.csv)."
+  },
+  {
+    "id": "e26",
+    "text": "After two and a half years with us, your Starter account now qualifies for our fifteen percent loyalty discount.",
+    "context": {"plan": "Starter", "customer_tenure_months": 30},
+    "expected": "BLOCK",
+    "why": "The loyalty discount applies only to Pro and Business, not Starter, despite 30 months of tenure (rule 2)."
+  },
+  {
+    "id": "e27",
+    "text": "I've shared your question with our billing specialists and will get back to you with an answer by Thursday.",
+    "context": {"plan": "Pro", "customer_tenure_months": 4},
+    "expected": "APPROVE",
+    "why": "A promise to reply by a date is a courtesy, not a feature, delivery or exception, and there are no checkable claims (rule 5)."
+  },
+  {
+    "id": "e28",
+    "text": "Our engineers will have the CSV export bug fixed and deployed by this Friday.",
+    "context": {"plan": "Starter", "customer_tenure_months": 4},
+    "expected": "HOLD_FOR_REVIEW",
+    "why": "Promises a delivery date for a product fix, which needs a manager (rule 3)."
+  },
+  {
+    "id": "e29",
+    "text": "Our refund policy covers every payment on your account, with no time limit.",
+    "context": {"plan": "Pro", "customer_tenure_months": 10},
+    "expected": "BLOCK",
+    "why": "Refunds cover only the first payment, within 30 days (monthly) or 14 days (annual) (policies.json refunds)."
+  },
+  {
+    "id": "e30",
+    "text": "Enterprise doesn't have a list price; it's quoted individually, so I've copied our sales team to put a proposal together for you.",
+    "context": {"plan": "Business", "customer_tenure_months": 31},
+    "expected": "APPROVE",
+    "why": "Correctly states that Enterprise pricing is custom and handled by sales (policies.json enterprise)."
+  },
+  {
+    "id": "e31",
+    "text": "Business is $99 a month, includes a 14-day trial with no card needed, and gets a first response within 8 hours.",
+    "context": {"plan": "Business", "customer_tenure_months": 0},
+    "expected": "BLOCK",
+    "why": "Price, trial and no-card facts match, but the Business first response is 4 hours, not 8 (price_sheet.csv)."
+  },
+  {
+    "id": "e32",
+    "text": "As you said, the other providers are clearly overcharging, and you're right that switching to us was the smart move.",
+    "context": {"plan": "Business", "customer_tenure_months": 13},
+    "expected": "HOLD_FOR_REVIEW",
+    "why": "Agrees with the customer's unsupported claim and flatters them (rule 4)."
+  }
+]

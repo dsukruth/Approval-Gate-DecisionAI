@@ -113,14 +113,33 @@ python3 gate.py judge --persona customer_support --team "Your Team Name"
 cd wrapper && python3 -m unittest test_sot_customer_support test_wrapper_policy test_laya_signal test_checks
 ```
 
-### Optional: Laya
+### Optional: Laya (local "System 1" decision model)
+
+[Laya](https://huggingface.co/convaiinnovations/laya) is an open model (Convai, Apache-2.0, ModernBERT-large encoder) that scores typed answers in one forward pass instead of generating text. The gate uses it as an optional, add-only signal in [`wrapper/laya_signal.py`](wrapper/laya_signal.py):
+
+- **Question asked:** "Does the support agent promise a product feature, a delivery date, or an exception to company policy?" (a yes/no `noul` question).
+- **Effect:** a probability of 0.80 or more adds a HOLD_FOR_REVIEW with the probability as evidence. Laya can never approve or block, so the price and policy rules and Ezio stay in charge.
+- **Calibration:** on the practice texts, real promises scored 0.82 to 0.93 and good emails at most 0.44. A second "hype" question was tested and dropped, because it scored a plain price statement ("The Pro plan is $49 per month.") at 0.89.
+- **Robustness:** the model loads in a background thread, so `/health` answers at once. It loads offline from the local cache (`HF_HUB_OFFLINE=1`). Predictions are serialized behind a lock, because the Apple GPU (Metal) backend aborts on overlapping calls, and any load or prediction error skips Laya with a note in the evidence.
+- **Off by default:** judged runs use the standard-library path. With Laya on, the practice set and failure drills still score 16/16 and 15/15.
 
 ```bash
 python3 -m venv .venv-laya && .venv-laya/bin/pip install laya
 LAYA_ENABLED=1 GATE_WRAPPER_CMD=".venv-laya/bin/python wrapper/serve.py" python3 gate.py practice --persona customer_support
 ```
 
-The model loads from the local cache in the background, so the wrapper starts at once. Predictions run one at a time, because the Apple GPU backend crashes on overlapping calls, and any error skips Laya. Judged runs use the standard-library path.
+## Testing beyond the practice set
+
+The [`eval/`](eval/) folder holds independent tests. It is outside `wrapper/`, so it never changes the judging fingerprint.
+
+| Tool | What it does |
+|---|---|
+| `eval/run_eval.py <set.json>` | Runs any set of `{text, context, expected}` emails through the real gate against a private mock and reports exact matches, catch rate, false blocks and every disagreement. Judges can use it for their own batch of questions. |
+| `eval/sets/round1.json`, `round2.json` | 72 emails written blind from the business rules by separate agents (32 and 40). Both score 100% with no false blocks; round 2 was used to find and fix gaps. |
+| `eval/llm_eval.py` | Asks a frontier model, through HarnessRouter (main route) or TokenRouter (fallback), to write fresh test emails from the rules and data only. It runs them through the gate, gets Laya's opinion on each, and has the model re-check every disagreement to separate real gate misses from label errors. Keys come from `HR_API_KEY` / `TOKENROUTER_API_KEY` or `~/.config/<provider>/key` and are never printed or committed. |
+| `eval/laya_judge.py` | Laya as the second opinion: approve, hold or block, plus promise and hype probabilities for every generated email. |
+
+The first model-written round (40 emails, `eval/generated/20261010-222555-*`) scored 32/40 exact with 2 false blocks. The misses it found (new promise and flattery wording, card-required phrasing, and a correctly discounted price being blocked) are the next rule improvements. Laya agreed with the gate on intent-style cases but, as expected, cannot judge prices it has never seen.
 
 ### Sharing a temporary demo link
 
@@ -143,6 +162,8 @@ The link works only while both processes run.
 | `wrapper/policy.json` | Thresholds and justifications |
 | `wrapper/ui/` | Console page (`persona.html`, `persona.css`, `persona.js`) |
 | `wrapper/test_*.py` | Unit tests |
+| `eval/` | Independent eval sets, batch runner, and the HarnessRouter / TokenRouter / Laya test tool |
+| `docs/screenshots/` | Console screenshots and the final results page (50.0 / 50) |
 | `POLICY.md` | One-page decision policy |
 | `STARTER.md` | The organizers' original starter README (setup, judging, rules) |
 

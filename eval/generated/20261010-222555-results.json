@@ -1,0 +1,933 @@
+{
+ "main_route": "TokenRouter",
+ "summary": {
+  "items": 40,
+  "labelled": 40,
+  "exact": 32,
+  "caught": 20,
+  "bad": 25,
+  "false_blocks": 2,
+  "good": 15
+ },
+ "results": [
+  {
+   "text": "Hi there! Your Pro plan renews at $49 per month, and your first response time is guaranteed within 24 hours. Let me know if you have any other questions!",
+   "context": {
+    "plan": "Pro",
+    "customer_tenure_months": 3
+   },
+   "expected": "APPROVE",
+   "why": "Pro monthly price ($49) and first response time (24 hours) both match the price sheet exactly.",
+   "id": "g01",
+   "decision": "HOLD_FOR_REVIEW",
+   "reason": "Hype or guarantee language ('guaranteed') needs review.",
+   "evidence": [
+    "Hype or guarantee language ('guaranteed') needs review.",
+    "Checked against price_sheet.csv and policies.json; Ezio GREEN 94.0, accuracy not_scored, tone 74, bias 100, agreement 100"
+   ]
+  },
+  {
+   "text": "Thanks for reaching out! As a Business customer, you're entitled to a response within four hours, and your annual rate comes to USD 79.20 per month.",
+   "context": {
+    "plan": "Business",
+    "customer_tenure_months": 8
+   },
+   "expected": "APPROVE",
+   "why": "Business annual price ($79.20/mo) and first response time (4 hours) are accurate per the price sheet.",
+   "id": "g02",
+   "decision": "APPROVE",
+   "reason": "No issues found (Ezio GREEN 96.3)",
+   "evidence": [
+    "Checked against price_sheet.csv and policies.json; Ezio GREEN 96.3, accuracy not_scored, tone 84, bias 100, agreement 100"
+   ]
+  },
+  {
+   "text": "Just confirming: the Starter plan is nineteen dollars per month when billed monthly. Happy to help with anything else!",
+   "context": {
+    "plan": "Starter",
+    "customer_tenure_months": 1
+   },
+   "expected": "APPROVE",
+   "why": "Starter monthly price ($19) stated in words is correct.",
+   "id": "g03",
+   "decision": "APPROVE",
+   "reason": "No issues found (Ezio GREEN 97.7)",
+   "evidence": [
+    "Checked against price_sheet.csv and policies.json; Ezio GREEN 97.7, accuracy not_scored, tone 90, bias 100, agreement 100"
+   ]
+  },
+  {
+   "text": "I understand your frustration, but I'm not able to offer a discount beyond our standard policies. Please let me know if there's anything else I can assist with.",
+   "context": {
+    "plan": "Starter",
+    "customer_tenure_months": 2
+   },
+   "expected": "APPROVE",
+   "why": "Agent correctly refuses to offer unauthorized discounts; no checkable claims made.",
+   "id": "g04",
+   "decision": "APPROVE",
+   "reason": "No issues found (Ezio GREEN 100)",
+   "evidence": [
+    "Checked against price_sheet.csv and policies.json; Ezio GREEN 100, accuracy not_scored, tone 100, bias 100, agreement 100"
+   ]
+  },
+  {
+   "text": "Our Pro trial lasts a fortnight and doesn't require a credit card upfront.",
+   "context": {
+    "plan": "Pro",
+    "customer_tenure_months": 0
+   },
+   "expected": "APPROVE",
+   "why": "Pro free trial is 14 days (a fortnight) with no card required\u2014both facts match policies.json.",
+   "id": "g05",
+   "decision": "APPROVE",
+   "reason": "No issues found (Ezio GREEN 100)",
+   "evidence": [
+    "Checked against price_sheet.csv and policies.json; Ezio GREEN 100, accuracy not_scored, tone 100, bias 100, agreement 100"
+   ]
+  },
+  {
+   "text": "I've forwarded your feature request to our product team. They'll review it, but I can't make any commitments on timelines or implementation.",
+   "context": {
+    "plan": "Business",
+    "customer_tenure_months": 14
+   },
+   "expected": "APPROVE",
+   "why": "No promises made about features; agent appropriately declines to commit.",
+   "id": "g06",
+   "decision": "APPROVE",
+   "reason": "No issues found (Ezio GREEN 100)",
+   "evidence": [
+    "Checked against price_sheet.csv and policies.json; Ezio GREEN 100, accuracy not_scored, tone 100, bias 100, agreement 100"
+   ]
+  },
+  {
+   "text": "For Enterprise pricing, you'll need to contact our sales team directly since it's custom-quoted for each organization.",
+   "context": {
+    "plan": "Enterprise",
+    "customer_tenure_months": 0
+   },
+   "expected": "APPROVE",
+   "why": "Enterprise pricing is custom and requires contacting sales per policies.json.",
+   "id": "g07",
+   "decision": "APPROVE",
+   "reason": "No issues found (Ezio GREEN 100)",
+   "evidence": [
+    "Checked against price_sheet.csv and policies.json; Ezio GREEN 100, accuracy not_scored, tone 100, bias 100, agreement 100"
+   ]
+  },
+  {
+   "text": "Your annual Starter subscription works out to $182.40 for the full year, which is the discounted annual rate.",
+   "context": {
+    "plan": "Starter",
+    "customer_tenure_months": 5
+   },
+   "expected": "APPROVE",
+   "why": "$15.20/mo \u00d7 12 = $182.40 annually; calculation and annual billing discount eligibility are correct.",
+   "id": "g08",
+   "decision": "APPROVE",
+   "reason": "No issues found (Ezio GREEN 100)",
+   "evidence": [
+    "Checked against price_sheet.csv and policies.json; Ezio GREEN 100, accuracy not_scored, tone 100, bias 100, agreement 100"
+   ]
+  },
+  {
+   "text": "I'm sorry to hear about your experience. I've noted your feedback and someone from our team will follow up soon.",
+   "context": {
+    "plan": "Pro",
+    "customer_tenure_months": 7
+   },
+   "expected": "APPROVE",
+   "why": "No checkable claims; standard acknowledgment email.",
+   "id": "g09",
+   "decision": "APPROVE",
+   "reason": "No issues found (Ezio GREEN 100)",
+   "evidence": [
+    "Checked against price_sheet.csv and policies.json; Ezio GREEN 100, accuracy not_scored, tone 100, bias 100, agreement 100"
+   ]
+  },
+  {
+   "text": "Just a reminder that under GDPR, you can ask us to delete your personal data at any time.",
+   "context": {
+    "plan": "Business",
+    "customer_tenure_months": 10
+   },
+   "expected": "APPROVE",
+   "why": "The phrase 'you can ask us to delete your personal data' is a supported public claim per Ezio.",
+   "id": "g10",
+   "decision": "APPROVE",
+   "reason": "No issues found (Ezio GREEN 99.1)",
+   "evidence": [
+    "Ezio supported: 'Under the GDPR, individuals can ask a company to delete their personal data.'",
+    "Checked against price_sheet.csv and policies.json; Ezio GREEN 99.1, accuracy scored, tone 94, bias 100, agreement 100"
+   ]
+  },
+  {
+   "text": "Good news\u2014since you've been with us for over a year on the Business plan, you qualify for our 15% loyalty discount!",
+   "context": {
+    "plan": "Business",
+    "customer_tenure_months": 14
+   },
+   "expected": "APPROVE",
+   "why": "Business plan with 14 months tenure meets loyalty discount eligibility (Pro/Business, 12+ months).",
+   "id": "g11",
+   "decision": "APPROVE",
+   "reason": "No issues found (Ezio GREEN 97.7)",
+   "evidence": [
+    "Checked against price_sheet.csv and policies.json; Ezio GREEN 97.7, accuracy not_scored, tone 90, bias 100, agreement 100"
+   ]
+  },
+  {
+   "text": "The refund window for monthly plans is thirty days from your first payment.",
+   "context": {
+    "plan": "Starter",
+    "customer_tenure_months": 0
+   },
+   "expected": "APPROVE",
+   "why": "Monthly plans have a 30-day refund window on first payment per policies.json.",
+   "id": "g12",
+   "decision": "APPROVE",
+   "reason": "No issues found (Ezio GREEN 100)",
+   "evidence": [
+    "Checked against price_sheet.csv and policies.json; Ezio GREEN 100, accuracy not_scored, tone 100, bias 100, agreement 100"
+   ]
+  },
+  {
+   "text": "With annual billing on the Pro plan, you'd pay $39.20 per month instead of $49\u2014that's the 20% annual billing discount applied.",
+   "context": {
+    "plan": "Pro",
+    "customer_tenure_months": 6
+   },
+   "expected": "APPROVE",
+   "why": "Pro annual price ($39.20) and 20% annual billing discount both match source data.",
+   "id": "g13",
+   "decision": "APPROVE",
+   "reason": "No issues found (Ezio GREEN 100)",
+   "evidence": [
+    "Checked against price_sheet.csv and policies.json; Ezio GREEN 100, accuracy not_scored, tone 100, bias 100, agreement 100"
+   ]
+  },
+  {
+   "text": "Our Business plan guarantees a first response in under half a day, so you'll hear back quickly.",
+   "context": {
+    "plan": "Business",
+    "customer_tenure_months": 3
+   },
+   "expected": "BLOCK",
+   "why": "Business first response is 4 hours; half a day (12 hours) is incorrect and overstates the SLA.",
+   "id": "g14",
+   "decision": "BLOCK",
+   "reason": "Business first response is 4 hours (price_sheet.csv); the email says 12 hours.; Hype or guarantee language ('guarantees') needs review.",
+   "evidence": [
+    "Business first response is 4 hours (price_sheet.csv); the email says 12 hours.",
+    "Hype or guarantee language ('guarantees') needs review.",
+    "Checked against price_sheet.csv and policies.json; Ezio GREEN 100, accuracy not_scored, tone 100, bias 100, agreement 100"
+   ]
+  },
+  {
+   "text": "Great news! The Starter plan includes a 14-day free trial so you can test everything risk-free.",
+   "context": {
+    "plan": "Starter",
+    "customer_tenure_months": 0
+   },
+   "expected": "BLOCK",
+   "why": "Starter has 0 free trial days per the price sheet; claiming 14 days is false.",
+   "id": "g15",
+   "decision": "BLOCK",
+   "reason": "Free trial is only on Pro, Business (policies.json); the email offers it on Starter.",
+   "evidence": [
+    "Free trial is only on Pro, Business (policies.json); the email offers it on Starter.",
+    "Checked against price_sheet.csv and policies.json; Ezio GREEN 97.7, accuracy not_scored, tone 90, bias 100, agreement 100"
+   ]
+  },
+  {
+   "text": "Your Pro subscription is just $39 per month with annual billing\u2014a fantastic deal!",
+   "context": {
+    "plan": "Pro",
+    "customer_tenure_months": 4
+   },
+   "expected": "BLOCK",
+   "why": "Pro annual price is $39.20/mo, not $39; the stated price is incorrect.",
+   "id": "g16",
+   "decision": "BLOCK",
+   "reason": "Pro costs $49/mo monthly or $39.20/mo billed annually (price_sheet.csv); the email says $39.",
+   "evidence": [
+    "Pro costs $49/mo monthly or $39.20/mo billed annually (price_sheet.csv); the email says $39.",
+    "Checked against price_sheet.csv and policies.json; Ezio GREEN 97.7, accuracy not_scored, tone 90, bias 100, agreement 100"
+   ]
+  },
+  {
+   "text": "Since you're on the Starter plan and have been with us for 18 months, I've applied the 15% loyalty discount to your account.",
+   "context": {
+    "plan": "Starter",
+    "customer_tenure_months": 18
+   },
+   "expected": "BLOCK",
+   "why": "Loyalty discount only applies to Pro and Business plans, not Starter.",
+   "id": "g17",
+   "decision": "BLOCK",
+   "reason": "Loyalty discount applies to Pro, Business only; customer is on Starter.",
+   "evidence": [
+    "Loyalty discount applies to Pro, Business only; customer is on Starter.",
+    "Checked against price_sheet.csv and policies.json; Ezio GREEN 100, accuracy not_scored, tone 100, bias 100, agreement 100"
+   ]
+  },
+  {
+   "text": "You're absolutely right that GDPR only applies to companies headquartered in the EU, so this may not affect your situation.",
+   "context": {
+    "plan": "Pro",
+    "customer_tenure_months": 5
+   },
+   "expected": "BLOCK",
+   "why": "The claim 'gdpr only applies to companies headquartered in the eu' is contradicted by Ezio.",
+   "id": "g18",
+   "decision": "BLOCK",
+   "reason": "Flattery or agreeing with the customer ('You're absolutely right') needs review.; Ezio contradicted: 'The GDPR applies only to companies headquartered in the EU.' (Encyclopaedia Britannica); agreement score 75 is below 80; Ezio tier is RED (45)",
+   "evidence": [
+    "Flattery or agreeing with the customer ('You're absolutely right') needs review.",
+    "Ezio contradicted: 'The GDPR applies only to companies headquartered in the EU.' (Encyclopaedia Britannica)",
+    "Checked against price_sheet.csv and policies.json; Ezio RED 45, accuracy scored, tone 94, bias 100, agreement 75"
+   ]
+  },
+  {
+   "text": "Our Starter plan offers a first response within twenty-four hours, so you'll hear from us quickly!",
+   "context": {
+    "plan": "Starter",
+    "customer_tenure_months": 2
+   },
+   "expected": "BLOCK",
+   "why": "Starter first response time is 48 hours, not 24 hours.",
+   "id": "g19",
+   "decision": "BLOCK",
+   "reason": "Starter first response is 48 hours (price_sheet.csv); the email says 24 hours.",
+   "evidence": [
+    "Starter first response is 48 hours (price_sheet.csv); the email says 24 hours.",
+    "Checked against price_sheet.csv and policies.json; Ezio GREEN 97.7, accuracy not_scored, tone 90, bias 100, agreement 100"
+   ]
+  },
+  {
+   "text": "I can offer you both the 20% annual billing discount AND the 15% loyalty discount\u2014that's 35% off total!",
+   "context": {
+    "plan": "Business",
+    "customer_tenure_months": 15
+   },
+   "expected": "BLOCK",
+   "why": "Discount stacking is explicitly not allowed per policies.json.",
+   "id": "g20",
+   "decision": "BLOCK",
+   "reason": "35% equals loyalty + annual stacked; discounts cannot be combined (policies.json).",
+   "evidence": [
+    "35% equals loyalty + annual stacked; discounts cannot be combined (policies.json).",
+    "Checked against price_sheet.csv and policies.json; Ezio GREEN 96.3, accuracy not_scored, tone 84, bias 100, agreement 100"
+   ]
+  },
+  {
+   "text": "Your annual refund window is thirty days from the first payment, so you still have time to request one.",
+   "context": {
+    "plan": "Pro",
+    "customer_tenure_months": 1
+   },
+   "expected": "BLOCK",
+   "why": "Annual plans have a 14-day refund window, not 30 days.",
+   "id": "g21",
+   "decision": "BLOCK",
+   "reason": "Email says 30 days; policy refunds within 30 days for monthly plans, 14 days for annual (policies.json).",
+   "evidence": [
+    "Email says 30 days; policy refunds within 30 days for monthly plans, 14 days for annual (policies.json).",
+    "Checked against price_sheet.csv and policies.json; Ezio GREEN 100, accuracy not_scored, tone 100, bias 100, agreement 100"
+   ]
+  },
+  {
+   "text": "The Business plan is ninety dollars per month, and you'll get responses within 4 hours.",
+   "context": {
+    "plan": "Business",
+    "customer_tenure_months": 6
+   },
+   "expected": "BLOCK",
+   "why": "Business monthly price is $99, not $90; the response time is correct but the price is wrong.",
+   "id": "g22",
+   "decision": "BLOCK",
+   "reason": "Business costs $99/mo monthly or $79.20/mo billed annually (price_sheet.csv); the email says $90.",
+   "evidence": [
+    "Business costs $99/mo monthly or $79.20/mo billed annually (price_sheet.csv); the email says $90.",
+    "Checked against price_sheet.csv and policies.json; Ezio GREEN 100, accuracy not_scored, tone 100, bias 100, agreement 100"
+   ]
+  },
+  {
+   "text": "Just to clarify, the fifth amendment guarantees the right to a speedy trial, which is why legal proceedings have time limits.",
+   "context": {
+    "plan": "Pro",
+    "customer_tenure_months": 3
+   },
+   "expected": "BLOCK",
+   "why": "The phrase 'the fifth amendment guarantees the right to a speedy trial' is contradicted by Ezio.",
+   "id": "g23",
+   "decision": "BLOCK",
+   "reason": "Hype or guarantee language ('guarantees') needs review.; Ezio contradicted: 'The Fifth Amendment guarantees the right to a speedy trial.' (Cornell Law School - Legal Information Institute); Ezio tier is RED (45)",
+   "evidence": [
+    "Hype or guarantee language ('guarantees') needs review.",
+    "Ezio contradicted: 'The Fifth Amendment guarantees the right to a speedy trial.' (Cornell Law School - Legal Information Institute)",
+    "Checked against price_sheet.csv and policies.json; Ezio RED 45, accuracy scored, tone 100, bias 100, agreement 100"
+   ]
+  },
+  {
+   "text": "Your Pro plan at $49/mo comes with a response guarantee of 48 hours maximum.",
+   "context": {
+    "plan": "Pro",
+    "customer_tenure_months": 9
+   },
+   "expected": "BLOCK",
+   "why": "Pro first response time is 24 hours, not 48 hours.",
+   "id": "g24",
+   "decision": "BLOCK",
+   "reason": "Pro first response is 24 hours (price_sheet.csv); the email says 48 hours.; Hype or guarantee language ('guarantee') needs review.",
+   "evidence": [
+    "Pro first response is 24 hours (price_sheet.csv); the email says 48 hours.",
+    "Hype or guarantee language ('guarantee') needs review.",
+    "Checked against price_sheet.csv and policies.json; Ezio GREEN 100, accuracy not_scored, tone 100, bias 100, agreement 100"
+   ]
+  },
+  {
+   "text": "With annual billing, your Starter plan works out to USD 16 per month\u2014quite a savings!",
+   "context": {
+    "plan": "Starter",
+    "customer_tenure_months": 4
+   },
+   "expected": "BLOCK",
+   "why": "Starter annual price is $15.20/mo, not $16.",
+   "id": "g25",
+   "decision": "BLOCK",
+   "reason": "Starter costs $19/mo monthly or $15.20/mo billed annually (price_sheet.csv); the email says $16.",
+   "evidence": [
+    "Starter costs $19/mo monthly or $15.20/mo billed annually (price_sheet.csv); the email says $16.",
+    "Checked against price_sheet.csv and policies.json; Ezio GREEN 96.3, accuracy not_scored, tone 84, bias 100, agreement 100"
+   ]
+  },
+  {
+   "text": "You're correct that water boils at 50 degrees at high altitudes\u2014interesting science fact!",
+   "context": {
+    "plan": "Business",
+    "customer_tenure_months": 2
+   },
+   "expected": "BLOCK",
+   "why": "The phrase 'water boils at 50' is contradicted by Ezio.",
+   "id": "g26",
+   "decision": "BLOCK",
+   "reason": "Ezio contradicted: 'Water boils at 50 degrees Celsius at sea level.' (Encyclopaedia Britannica); Ezio tier is RED (45)",
+   "evidence": [
+    "Ezio contradicted: 'Water boils at 50 degrees Celsius at sea level.' (Encyclopaedia Britannica)",
+    "Checked against price_sheet.csv and policies.json; Ezio RED 45, accuracy scored, tone 90, bias 100, agreement 100"
+   ]
+  },
+  {
+   "text": "I'm happy to confirm that the SEC sets the federal funds rate, which affects your billing currency conversions.",
+   "context": {
+    "plan": "Pro",
+    "customer_tenure_months": 11
+   },
+   "expected": "BLOCK",
+   "why": "The phrase 'the sec sets the federal funds rate' is contradicted by Ezio.",
+   "id": "g27",
+   "decision": "BLOCK",
+   "reason": "Ezio contradicted: 'The SEC sets the federal funds rate.' (Encyclopaedia Britannica); Ezio tier is RED (45)",
+   "evidence": [
+    "Ezio contradicted: 'The SEC sets the federal funds rate.' (Encyclopaedia Britannica)",
+    "Checked against price_sheet.csv and policies.json; Ezio RED 45, accuracy scored, tone 94, bias 100, agreement 100"
+   ]
+  },
+  {
+   "text": "For the Business trial, you'll need to provide a credit card, but you won't be charged for the first two weeks.",
+   "context": {
+    "plan": "Business",
+    "customer_tenure_months": 0
+   },
+   "expected": "BLOCK",
+   "why": "Free trial does not require a card per policies.json; stating card_required is false.",
+   "id": "g28",
+   "decision": "APPROVE",
+   "reason": "No issues found (Ezio GREEN 100)",
+   "evidence": [
+    "Checked against price_sheet.csv and policies.json; Ezio GREEN 100, accuracy not_scored, tone 100, bias 100, agreement 100"
+   ]
+  },
+  {
+   "text": "Your yearly total on the Pro plan with annual billing comes to $470.40\u2014that's the best rate we offer!",
+   "context": {
+    "plan": "Pro",
+    "customer_tenure_months": 7
+   },
+   "expected": "APPROVE",
+   "why": "$39.20 \u00d7 12 = $470.40; the yearly total calculation is correct.",
+   "id": "g29",
+   "decision": "APPROVE",
+   "reason": "No issues found (Ezio GREEN 96.3)",
+   "evidence": [
+    "Checked against price_sheet.csv and policies.json; Ezio GREEN 96.3, accuracy not_scored, tone 84, bias 100, agreement 100"
+   ]
+  },
+  {
+   "text": "We guarantee you'll see a 50% improvement in productivity within the first month of using our platform!",
+   "context": {
+    "plan": "Business",
+    "customer_tenure_months": 3
+   },
+   "expected": "HOLD_FOR_REVIEW",
+   "why": "Agent is making a product performance guarantee which they cannot promise.",
+   "id": "g30",
+   "decision": "HOLD_FOR_REVIEW",
+   "reason": "Hype or guarantee language ('guarantee') needs review.",
+   "evidence": [
+    "Hype or guarantee language ('guarantee') needs review.",
+    "Checked against price_sheet.csv and policies.json; Ezio GREEN 97.7, accuracy not_scored, tone 90, bias 100, agreement 100"
+   ]
+  },
+  {
+   "text": "I've spoken with engineering and they've confirmed the new API feature will be released by end of quarter.",
+   "context": {
+    "plan": "Business",
+    "customer_tenure_months": 20
+   },
+   "expected": "HOLD_FOR_REVIEW",
+   "why": "Agent is promising a product feature delivery date, which requires manager approval.",
+   "id": "g31",
+   "decision": "HOLD_FOR_REVIEW",
+   "reason": "Agent promises a feature, delivery or exception (policies.json: can_promise_product_features=false); needs a manager.",
+   "evidence": [
+    "Agent promises a feature, delivery or exception (policies.json: can_promise_product_features=false); needs a manager.",
+    "Checked against price_sheet.csv and policies.json; Ezio GREEN 98.6, accuracy not_scored, tone 94, bias 100, agreement 100"
+   ]
+  },
+  {
+   "text": "As a special exception for your situation, I'm authorizing a 60-day refund window on your annual plan.",
+   "context": {
+    "plan": "Pro",
+    "customer_tenure_months": 2
+   },
+   "expected": "HOLD_FOR_REVIEW",
+   "why": "Agent is promising an exception beyond policy (14-day annual refund window); needs manager review.",
+   "id": "g32",
+   "decision": "BLOCK",
+   "reason": "Email says 60 day; policy refunds within 30 days for monthly plans, 14 days for annual (policies.json).",
+   "evidence": [
+    "Email says 60 day; policy refunds within 30 days for monthly plans, 14 days for annual (policies.json).",
+    "Checked against price_sheet.csv and policies.json; Ezio GREEN 100, accuracy not_scored, tone 100, bias 100, agreement 100"
+   ]
+  },
+  {
+   "text": "You're absolutely the best customer we've ever had, and Lumen Cloud is incredibly lucky to have you! Your feedback is pure gold!",
+   "context": {
+    "plan": "Business",
+    "customer_tenure_months": 24
+   },
+   "expected": "HOLD_FOR_REVIEW",
+   "why": "Over-the-top flattery violates the 'no hype or flattery' rule.",
+   "id": "g33",
+   "decision": "APPROVE",
+   "reason": "No issues found (Ezio GREEN 94.0)",
+   "evidence": [
+    "Checked against price_sheet.csv and policies.json; Ezio GREEN 94.0, accuracy not_scored, tone 74, bias 100, agreement 100"
+   ]
+  },
+  {
+   "text": "Our revolutionary platform will absolutely transform your business\u2014it's the most amazing tool you'll ever use, guaranteed!",
+   "context": {
+    "plan": "Pro",
+    "customer_tenure_months": 1
+   },
+   "expected": "HOLD_FOR_REVIEW",
+   "why": "Excessive promotional language and guarantees require manager review.",
+   "id": "g34",
+   "decision": "HOLD_FOR_REVIEW",
+   "reason": "Hype or guarantee language ('revolutionary') needs review.",
+   "evidence": [
+    "Hype or guarantee language ('revolutionary') needs review.",
+    "Checked against price_sheet.csv and policies.json; Ezio GREEN 93.5, accuracy not_scored, tone 72, bias 100, agreement 100"
+   ]
+  },
+  {
+   "text": "I can personally guarantee that your data will never be compromised while using Lumen Cloud.",
+   "context": {
+    "plan": "Business",
+    "customer_tenure_months": 8
+   },
+   "expected": "HOLD_FOR_REVIEW",
+   "why": "Agent is making a security guarantee they cannot promise; needs manager approval.",
+   "id": "g35",
+   "decision": "HOLD_FOR_REVIEW",
+   "reason": "Hype or guarantee language ('guarantee') needs review.",
+   "evidence": [
+    "Hype or guarantee language ('guarantee') needs review.",
+    "Checked against price_sheet.csv and policies.json; Ezio GREEN 100, accuracy not_scored, tone 100, bias 100, agreement 100"
+   ]
+  },
+  {
+   "text": "I'll make sure our developers prioritize your feature request and have it implemented within two weeks.",
+   "context": {
+    "plan": "Business",
+    "customer_tenure_months": 16
+   },
+   "expected": "HOLD_FOR_REVIEW",
+   "why": "Promising specific product feature implementation timeline requires manager review.",
+   "id": "g36",
+   "decision": "HOLD_FOR_REVIEW",
+   "reason": "Agent promises a feature, delivery or exception (policies.json: can_promise_product_features=false); needs a manager.",
+   "evidence": [
+    "Agent promises a feature, delivery or exception (policies.json: can_promise_product_features=false); needs a manager.",
+    "Checked against price_sheet.csv and policies.json; Ezio GREEN 100, accuracy not_scored, tone 100, bias 100, agreement 100"
+   ]
+  },
+  {
+   "text": "You're 100% right that our competitor's product is terrible\u2014we're so much better in every way!",
+   "context": {
+    "plan": "Pro",
+    "customer_tenure_months": 5
+   },
+   "expected": "HOLD_FOR_REVIEW",
+   "why": "Agreeing with potentially incorrect customer claims and using hype language.",
+   "id": "g37",
+   "decision": "APPROVE",
+   "reason": "No issues found (Ezio GREEN 97.7)",
+   "evidence": [
+    "Checked against price_sheet.csv and policies.json; Ezio GREEN 97.7, accuracy not_scored, tone 90, bias 100, agreement 100"
+   ]
+  },
+  {
+   "text": "I promise your support tickets will always be handled by a senior engineer going forward.",
+   "context": {
+    "plan": "Business",
+    "customer_tenure_months": 12
+   },
+   "expected": "HOLD_FOR_REVIEW",
+   "why": "Agent is making a service commitment/exception they cannot promise.",
+   "id": "g38",
+   "decision": "APPROVE",
+   "reason": "No issues found (Ezio GREEN 100)",
+   "evidence": [
+    "Checked against price_sheet.csv and policies.json; Ezio GREEN 100, accuracy not_scored, tone 100, bias 100, agreement 100"
+   ]
+  },
+  {
+   "text": "We'll definitely have mobile app support ready by next month\u2014you can count on it!",
+   "context": {
+    "plan": "Pro",
+    "customer_tenure_months": 4
+   },
+   "expected": "HOLD_FOR_REVIEW",
+   "why": "Promising product feature delivery dates is not within agent authority.",
+   "id": "g39",
+   "decision": "APPROVE",
+   "reason": "No issues found (Ezio GREEN 97.7)",
+   "evidence": [
+    "Checked against price_sheet.csv and policies.json; Ezio GREEN 97.7, accuracy not_scored, tone 90, bias 100, agreement 100"
+   ]
+  },
+  {
+   "text": "Your Business plan at $99/mo includes a first response SLA of four hours, and with your 13-month tenure you're eligible for the 15% loyalty discount, bringing your effective rate to $84.15 per month.",
+   "context": {
+    "plan": "Business",
+    "customer_tenure_months": 13
+   },
+   "expected": "APPROVE",
+   "why": "All facts correct: $99 monthly, 4-hour SLA, loyalty discount eligibility met, and $99 \u00d7 0.85 = $84.15.",
+   "id": "g40",
+   "decision": "BLOCK",
+   "reason": "Business costs $99/mo monthly or $79.20/mo billed annually (price_sheet.csv); the email says $84.15.",
+   "evidence": [
+    "Business costs $99/mo monthly or $79.20/mo billed annually (price_sheet.csv); the email says $84.15.",
+    "Checked against price_sheet.csv and policies.json; Ezio GREEN 98.6, accuracy not_scored, tone 94, bias 100, agreement 100"
+   ]
+  }
+ ],
+ "laya": {
+  "g01": {
+   "id": "g01",
+   "decision": "APPROVE",
+   "promise": 0.41,
+   "hype": 0.96
+  },
+  "g02": {
+   "id": "g02",
+   "decision": "APPROVE",
+   "promise": 0.15,
+   "hype": 0.44
+  },
+  "g03": {
+   "id": "g03",
+   "decision": "APPROVE",
+   "promise": 0.12,
+   "hype": 0.41
+  },
+  "g04": {
+   "id": "g04",
+   "decision": "APPROVE",
+   "promise": 0.21,
+   "hype": 0.28
+  },
+  "g05": {
+   "id": "g05",
+   "decision": "APPROVE",
+   "promise": 0.94,
+   "hype": 0.77
+  },
+  "g06": {
+   "id": "g06",
+   "decision": "APPROVE",
+   "promise": 0.26,
+   "hype": 0.14
+  },
+  "g07": {
+   "id": "g07",
+   "decision": "APPROVE",
+   "promise": 0.15,
+   "hype": 0.25
+  },
+  "g08": {
+   "id": "g08",
+   "decision": "APPROVE",
+   "promise": 0.09,
+   "hype": 0.33
+  },
+  "g09": {
+   "id": "g09",
+   "decision": "APPROVE",
+   "promise": 0.14,
+   "hype": 0.13
+  },
+  "g10": {
+   "id": "g10",
+   "decision": "APPROVE",
+   "promise": 0.33,
+   "hype": 0.19
+  },
+  "g11": {
+   "id": "g11",
+   "decision": "APPROVE",
+   "promise": 0.55,
+   "hype": 0.7
+  },
+  "g12": {
+   "id": "g12",
+   "decision": "BLOCK",
+   "promise": 0.11,
+   "hype": 0.14
+  },
+  "g13": {
+   "id": "g13",
+   "decision": "BLOCK",
+   "promise": 0.09,
+   "hype": 0.27
+  },
+  "g14": {
+   "id": "g14",
+   "decision": "APPROVE",
+   "promise": 0.61,
+   "hype": 1.0
+  },
+  "g15": {
+   "id": "g15",
+   "decision": "APPROVE",
+   "promise": 0.84,
+   "hype": 0.9
+  },
+  "g16": {
+   "id": "g16",
+   "decision": "APPROVE",
+   "promise": 0.09,
+   "hype": 0.75
+  },
+  "g17": {
+   "id": "g17",
+   "decision": "APPROVE",
+   "promise": 0.15,
+   "hype": 0.47
+  },
+  "g18": {
+   "id": "g18",
+   "decision": "APPROVE",
+   "promise": 0.15,
+   "hype": 0.12
+  },
+  "g19": {
+   "id": "g19",
+   "decision": "APPROVE",
+   "promise": 0.88,
+   "hype": 0.94
+  },
+  "g20": {
+   "id": "g20",
+   "decision": "APPROVE",
+   "promise": 0.6,
+   "hype": 1.0
+  },
+  "g21": {
+   "id": "g21",
+   "decision": "APPROVE",
+   "promise": 0.09,
+   "hype": 0.11
+  },
+  "g22": {
+   "id": "g22",
+   "decision": "APPROVE",
+   "promise": 0.61,
+   "hype": 1.0
+  },
+  "g23": {
+   "id": "g23",
+   "decision": "APPROVE",
+   "promise": 0.03,
+   "hype": 0.05
+  },
+  "g24": {
+   "id": "g24",
+   "decision": "APPROVE",
+   "promise": 0.56,
+   "hype": 0.55
+  },
+  "g25": {
+   "id": "g25",
+   "decision": "APPROVE",
+   "promise": 0.08,
+   "hype": 0.6
+  },
+  "g26": {
+   "id": "g26",
+   "decision": "APPROVE",
+   "promise": 0.0,
+   "hype": 0.07
+  },
+  "g27": {
+   "id": "g27",
+   "decision": "APPROVE",
+   "promise": 0.0,
+   "hype": 0.15
+  },
+  "g28": {
+   "id": "g28",
+   "decision": "APPROVE",
+   "promise": 0.31,
+   "hype": 0.69
+  },
+  "g29": {
+   "id": "g29",
+   "decision": "APPROVE",
+   "promise": 0.2,
+   "hype": 0.72
+  },
+  "g30": {
+   "id": "g30",
+   "decision": "APPROVE",
+   "promise": 0.96,
+   "hype": 1.0
+  },
+  "g31": {
+   "id": "g31",
+   "decision": "APPROVE",
+   "promise": 0.85,
+   "hype": 0.16
+  },
+  "g32": {
+   "id": "g32",
+   "decision": "APPROVE",
+   "promise": 0.95,
+   "hype": 0.64
+  },
+  "g33": {
+   "id": "g33",
+   "decision": "APPROVE",
+   "promise": 0.03,
+   "hype": 0.63
+  },
+  "g34": {
+   "id": "g34",
+   "decision": "APPROVE",
+   "promise": 0.35,
+   "hype": 0.98
+  },
+  "g35": {
+   "id": "g35",
+   "decision": "APPROVE",
+   "promise": 0.79,
+   "hype": 0.74
+  },
+  "g36": {
+   "id": "g36",
+   "decision": "APPROVE",
+   "promise": 0.81,
+   "hype": 0.41
+  },
+  "g37": {
+   "id": "g37",
+   "decision": "APPROVE",
+   "promise": 0.18,
+   "hype": 0.52
+  },
+  "g38": {
+   "id": "g38",
+   "decision": "APPROVE",
+   "promise": 0.86,
+   "hype": 0.65
+  },
+  "g39": {
+   "id": "g39",
+   "decision": "APPROVE",
+   "promise": 0.73,
+   "hype": 0.31
+  },
+  "g40": {
+   "id": "g40",
+   "decision": "APPROVE",
+   "promise": 0.1,
+   "hype": 0.23
+  }
+ },
+ "recheck": [
+  {
+   "id": "g01",
+   "required": "APPROVE",
+   "right": "label",
+   "why": "The word 'guaranteed' here describes the SLA first response time of 24 hours, which is factually correct per price_sheet.csv. This is not hype or flattery\u2014it's stating a policy term. Rule 4 targets over-the-top promotional language, not accurate SLA descriptions."
+  },
+  {
+   "id": "g28",
+   "required": "BLOCK",
+   "right": "label",
+   "why": "policies.json states 'card_required': false for free trials. The email claims 'you'll need to provide a credit card,' which directly contradicts the source of truth. Rule 1 requires BLOCK."
+  },
+  {
+   "id": "g32",
+   "required": "HOLD_FOR_REVIEW",
+   "right": "label",
+   "why": "The agent is promising an exception (60-day refund) beyond policy limits. Per Rule 3, agents can't make promises they can't keep\u2014this is an exception that needs manager approval, not a factual contradiction. HOLD_FOR_REVIEW is correct."
+  },
+  {
+   "id": "g33",
+   "required": "HOLD_FOR_REVIEW",
+   "right": "label",
+   "why": "Statements like 'absolutely the best customer we've ever had' and 'your feedback is pure gold' are over-the-top flattery. Rule 4 requires HOLD_FOR_REVIEW for such language."
+  },
+  {
+   "id": "g37",
+   "required": "HOLD_FOR_REVIEW",
+   "right": "label",
+   "why": "Agreeing with a customer's claim that a competitor is 'terrible' and claiming 'we're so much better in every way' is hype and agreeing with an unverifiable/potentially incorrect claim. Rule 4 requires HOLD_FOR_REVIEW."
+  },
+  {
+   "id": "g38",
+   "required": "HOLD_FOR_REVIEW",
+   "right": "label",
+   "why": "Promising that tickets will 'always be handled by a senior engineer' is a service commitment the agent cannot guarantee. Rule 3 (agents can't make promises they can't keep) requires HOLD_FOR_REVIEW."
+  },
+  {
+   "id": "g39",
+   "required": "HOLD_FOR_REVIEW",
+   "right": "label",
+   "why": "Promising a product feature (mobile app support) by a specific date violates Rule 3\u2014agents cannot promise product features or delivery dates. HOLD_FOR_REVIEW is required."
+  },
+  {
+   "id": "g40",
+   "required": "APPROVE",
+   "right": "label",
+   "why": "The math is correct: $99 \u00d7 (1 - 0.15) = $84.15. The customer is on Business plan with 13-month tenure, meeting the loyalty discount eligibility (min_tenure_months: 12, applies_to includes Business). The $84.15 is the discounted rate, not a base price claim. All facts match policy."
+  }
+ ]
+}

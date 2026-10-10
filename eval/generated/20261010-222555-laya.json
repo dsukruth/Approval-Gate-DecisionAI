@@ -1,0 +1,242 @@
+[
+ {
+  "id": "g01",
+  "decision": "APPROVE",
+  "promise": 0.41,
+  "hype": 0.96
+ },
+ {
+  "id": "g02",
+  "decision": "APPROVE",
+  "promise": 0.15,
+  "hype": 0.44
+ },
+ {
+  "id": "g03",
+  "decision": "APPROVE",
+  "promise": 0.12,
+  "hype": 0.41
+ },
+ {
+  "id": "g04",
+  "decision": "APPROVE",
+  "promise": 0.21,
+  "hype": 0.28
+ },
+ {
+  "id": "g05",
+  "decision": "APPROVE",
+  "promise": 0.94,
+  "hype": 0.77
+ },
+ {
+  "id": "g06",
+  "decision": "APPROVE",
+  "promise": 0.26,
+  "hype": 0.14
+ },
+ {
+  "id": "g07",
+  "decision": "APPROVE",
+  "promise": 0.15,
+  "hype": 0.25
+ },
+ {
+  "id": "g08",
+  "decision": "APPROVE",
+  "promise": 0.09,
+  "hype": 0.33
+ },
+ {
+  "id": "g09",
+  "decision": "APPROVE",
+  "promise": 0.14,
+  "hype": 0.13
+ },
+ {
+  "id": "g10",
+  "decision": "APPROVE",
+  "promise": 0.33,
+  "hype": 0.19
+ },
+ {
+  "id": "g11",
+  "decision": "APPROVE",
+  "promise": 0.55,
+  "hype": 0.7
+ },
+ {
+  "id": "g12",
+  "decision": "BLOCK",
+  "promise": 0.11,
+  "hype": 0.14
+ },
+ {
+  "id": "g13",
+  "decision": "BLOCK",
+  "promise": 0.09,
+  "hype": 0.27
+ },
+ {
+  "id": "g14",
+  "decision": "APPROVE",
+  "promise": 0.61,
+  "hype": 1.0
+ },
+ {
+  "id": "g15",
+  "decision": "APPROVE",
+  "promise": 0.84,
+  "hype": 0.9
+ },
+ {
+  "id": "g16",
+  "decision": "APPROVE",
+  "promise": 0.09,
+  "hype": 0.75
+ },
+ {
+  "id": "g17",
+  "decision": "APPROVE",
+  "promise": 0.15,
+  "hype": 0.47
+ },
+ {
+  "id": "g18",
+  "decision": "APPROVE",
+  "promise": 0.15,
+  "hype": 0.12
+ },
+ {
+  "id": "g19",
+  "decision": "APPROVE",
+  "promise": 0.88,
+  "hype": 0.94
+ },
+ {
+  "id": "g20",
+  "decision": "APPROVE",
+  "promise": 0.6,
+  "hype": 1.0
+ },
+ {
+  "id": "g21",
+  "decision": "APPROVE",
+  "promise": 0.09,
+  "hype": 0.11
+ },
+ {
+  "id": "g22",
+  "decision": "APPROVE",
+  "promise": 0.61,
+  "hype": 1.0
+ },
+ {
+  "id": "g23",
+  "decision": "APPROVE",
+  "promise": 0.03,
+  "hype": 0.05
+ },
+ {
+  "id": "g24",
+  "decision": "APPROVE",
+  "promise": 0.56,
+  "hype": 0.55
+ },
+ {
+  "id": "g25",
+  "decision": "APPROVE",
+  "promise": 0.08,
+  "hype": 0.6
+ },
+ {
+  "id": "g26",
+  "decision": "APPROVE",
+  "promise": 0.0,
+  "hype": 0.07
+ },
+ {
+  "id": "g27",
+  "decision": "APPROVE",
+  "promise": 0.0,
+  "hype": 0.15
+ },
+ {
+  "id": "g28",
+  "decision": "APPROVE",
+  "promise": 0.31,
+  "hype": 0.69
+ },
+ {
+  "id": "g29",
+  "decision": "APPROVE",
+  "promise": 0.2,
+  "hype": 0.72
+ },
+ {
+  "id": "g30",
+  "decision": "APPROVE",
+  "promise": 0.96,
+  "hype": 1.0
+ },
+ {
+  "id": "g31",
+  "decision": "APPROVE",
+  "promise": 0.85,
+  "hype": 0.16
+ },
+ {
+  "id": "g32",
+  "decision": "APPROVE",
+  "promise": 0.95,
+  "hype": 0.64
+ },
+ {
+  "id": "g33",
+  "decision": "APPROVE",
+  "promise": 0.03,
+  "hype": 0.63
+ },
+ {
+  "id": "g34",
+  "decision": "APPROVE",
+  "promise": 0.35,
+  "hype": 0.98
+ },
+ {
+  "id": "g35",
+  "decision": "APPROVE",
+  "promise": 0.79,
+  "hype": 0.74
+ },
+ {
+  "id": "g36",
+  "decision": "APPROVE",
+  "promise": 0.81,
+  "hype": 0.41
+ },
+ {
+  "id": "g37",
+  "decision": "APPROVE",
+  "promise": 0.18,
+  "hype": 0.52
+ },
+ {
+  "id": "g38",
+  "decision": "APPROVE",
+  "promise": 0.86,
+  "hype": 0.65
+ },
+ {
+  "id": "g39",
+  "decision": "APPROVE",
+  "promise": 0.73,
+  "hype": 0.31
+ },
+ {
+  "id": "g40",
+  "decision": "APPROVE",
+  "promise": 0.1,
+  "hype": 0.23
+ }
+]

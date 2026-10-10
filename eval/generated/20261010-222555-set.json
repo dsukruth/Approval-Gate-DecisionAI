@@ -1,0 +1,402 @@
+[
+ {
+  "text": "Hi there! Your Pro plan renews at $49 per month, and your first response time is guaranteed within 24 hours. Let me know if you have any other questions!",
+  "context": {
+   "plan": "Pro",
+   "customer_tenure_months": 3
+  },
+  "expected": "APPROVE",
+  "why": "Pro monthly price ($49) and first response time (24 hours) both match the price sheet exactly.",
+  "id": "g01"
+ },
+ {
+  "text": "Thanks for reaching out! As a Business customer, you're entitled to a response within four hours, and your annual rate comes to USD 79.20 per month.",
+  "context": {
+   "plan": "Business",
+   "customer_tenure_months": 8
+  },
+  "expected": "APPROVE",
+  "why": "Business annual price ($79.20/mo) and first response time (4 hours) are accurate per the price sheet.",
+  "id": "g02"
+ },
+ {
+  "text": "Just confirming: the Starter plan is nineteen dollars per month when billed monthly. Happy to help with anything else!",
+  "context": {
+   "plan": "Starter",
+   "customer_tenure_months": 1
+  },
+  "expected": "APPROVE",
+  "why": "Starter monthly price ($19) stated in words is correct.",
+  "id": "g03"
+ },
+ {
+  "text": "I understand your frustration, but I'm not able to offer a discount beyond our standard policies. Please let me know if there's anything else I can assist with.",
+  "context": {
+   "plan": "Starter",
+   "customer_tenure_months": 2
+  },
+  "expected": "APPROVE",
+  "why": "Agent correctly refuses to offer unauthorized discounts; no checkable claims made.",
+  "id": "g04"
+ },
+ {
+  "text": "Our Pro trial lasts a fortnight and doesn't require a credit card upfront.",
+  "context": {
+   "plan": "Pro",
+   "customer_tenure_months": 0
+  },
+  "expected": "APPROVE",
+  "why": "Pro free trial is 14 days (a fortnight) with no card required\u2014both facts match policies.json.",
+  "id": "g05"
+ },
+ {
+  "text": "I've forwarded your feature request to our product team. They'll review it, but I can't make any commitments on timelines or implementation.",
+  "context": {
+   "plan": "Business",
+   "customer_tenure_months": 14
+  },
+  "expected": "APPROVE",
+  "why": "No promises made about features; agent appropriately declines to commit.",
+  "id": "g06"
+ },
+ {
+  "text": "For Enterprise pricing, you'll need to contact our sales team directly since it's custom-quoted for each organization.",
+  "context": {
+   "plan": "Enterprise",
+   "customer_tenure_months": 0
+  },
+  "expected": "APPROVE",
+  "why": "Enterprise pricing is custom and requires contacting sales per policies.json.",
+  "id": "g07"
+ },
+ {
+  "text": "Your annual Starter subscription works out to $182.40 for the full year, which is the discounted annual rate.",
+  "context": {
+   "plan": "Starter",
+   "customer_tenure_months": 5
+  },
+  "expected": "APPROVE",
+  "why": "$15.20/mo \u00d7 12 = $182.40 annually; calculation and annual billing discount eligibility are correct.",
+  "id": "g08"
+ },
+ {
+  "text": "I'm sorry to hear about your experience. I've noted your feedback and someone from our team will follow up soon.",
+  "context": {
+   "plan": "Pro",
+   "customer_tenure_months": 7
+  },
+  "expected": "APPROVE",
+  "why": "No checkable claims; standard acknowledgment email.",
+  "id": "g09"
+ },
+ {
+  "text": "Just a reminder that under GDPR, you can ask us to delete your personal data at any time.",
+  "context": {
+   "plan": "Business",
+   "customer_tenure_months": 10
+  },
+  "expected": "APPROVE",
+  "why": "The phrase 'you can ask us to delete your personal data' is a supported public claim per Ezio.",
+  "id": "g10"
+ },
+ {
+  "text": "Good news\u2014since you've been with us for over a year on the Business plan, you qualify for our 15% loyalty discount!",
+  "context": {
+   "plan": "Business",
+   "customer_tenure_months": 14
+  },
+  "expected": "APPROVE",
+  "why": "Business plan with 14 months tenure meets loyalty discount eligibility (Pro/Business, 12+ months).",
+  "id": "g11"
+ },
+ {
+  "text": "The refund window for monthly plans is thirty days from your first payment.",
+  "context": {
+   "plan": "Starter",
+   "customer_tenure_months": 0
+  },
+  "expected": "APPROVE",
+  "why": "Monthly plans have a 30-day refund window on first payment per policies.json.",
+  "id": "g12"
+ },
+ {
+  "text": "With annual billing on the Pro plan, you'd pay $39.20 per month instead of $49\u2014that's the 20% annual billing discount applied.",
+  "context": {
+   "plan": "Pro",
+   "customer_tenure_months": 6
+  },
+  "expected": "APPROVE",
+  "why": "Pro annual price ($39.20) and 20% annual billing discount both match source data.",
+  "id": "g13"
+ },
+ {
+  "text": "Our Business plan guarantees a first response in under half a day, so you'll hear back quickly.",
+  "context": {
+   "plan": "Business",
+   "customer_tenure_months": 3
+  },
+  "expected": "BLOCK",
+  "why": "Business first response is 4 hours; half a day (12 hours) is incorrect and overstates the SLA.",
+  "id": "g14"
+ },
+ {
+  "text": "Great news! The Starter plan includes a 14-day free trial so you can test everything risk-free.",
+  "context": {
+   "plan": "Starter",
+   "customer_tenure_months": 0
+  },
+  "expected": "BLOCK",
+  "why": "Starter has 0 free trial days per the price sheet; claiming 14 days is false.",
+  "id": "g15"
+ },
+ {
+  "text": "Your Pro subscription is just $39 per month with annual billing\u2014a fantastic deal!",
+  "context": {
+   "plan": "Pro",
+   "customer_tenure_months": 4
+  },
+  "expected": "BLOCK",
+  "why": "Pro annual price is $39.20/mo, not $39; the stated price is incorrect.",
+  "id": "g16"
+ },
+ {
+  "text": "Since you're on the Starter plan and have been with us for 18 months, I've applied the 15% loyalty discount to your account.",
+  "context": {
+   "plan": "Starter",
+   "customer_tenure_months": 18
+  },
+  "expected": "BLOCK",
+  "why": "Loyalty discount only applies to Pro and Business plans, not Starter.",
+  "id": "g17"
+ },
+ {
+  "text": "You're absolutely right that GDPR only applies to companies headquartered in the EU, so this may not affect your situation.",
+  "context": {
+   "plan": "Pro",
+   "customer_tenure_months": 5
+  },
+  "expected": "BLOCK",
+  "why": "The claim 'gdpr only applies to companies headquartered in the eu' is contradicted by Ezio.",
+  "id": "g18"
+ },
+ {
+  "text": "Our Starter plan offers a first response within twenty-four hours, so you'll hear from us quickly!",
+  "context": {
+   "plan": "Starter",
+   "customer_tenure_months": 2
+  },
+  "expected": "BLOCK",
+  "why": "Starter first response time is 48 hours, not 24 hours.",
+  "id": "g19"
+ },
+ {
+  "text": "I can offer you both the 20% annual billing discount AND the 15% loyalty discount\u2014that's 35% off total!",
+  "context": {
+   "plan": "Business",
+   "customer_tenure_months": 15
+  },
+  "expected": "BLOCK",
+  "why": "Discount stacking is explicitly not allowed per policies.json.",
+  "id": "g20"
+ },
+ {
+  "text": "Your annual refund window is thirty days from the first payment, so you still have time to request one.",
+  "context": {
+   "plan": "Pro",
+   "customer_tenure_months": 1
+  },
+  "expected": "BLOCK",
+  "why": "Annual plans have a 14-day refund window, not 30 days.",
+  "id": "g21"
+ },
+ {
+  "text": "The Business plan is ninety dollars per month, and you'll get responses within 4 hours.",
+  "context": {
+   "plan": "Business",
+   "customer_tenure_months": 6
+  },
+  "expected": "BLOCK",
+  "why": "Business monthly price is $99, not $90; the response time is correct but the price is wrong.",
+  "id": "g22"
+ },
+ {
+  "text": "Just to clarify, the fifth amendment guarantees the right to a speedy trial, which is why legal proceedings have time limits.",
+  "context": {
+   "plan": "Pro",
+   "customer_tenure_months": 3
+  },
+  "expected": "BLOCK",
+  "why": "The phrase 'the fifth amendment guarantees the right to a speedy trial' is contradicted by Ezio.",
+  "id": "g23"
+ },
+ {
+  "text": "Your Pro plan at $49/mo comes with a response guarantee of 48 hours maximum.",
+  "context": {
+   "plan": "Pro",
+   "customer_tenure_months": 9
+  },
+  "expected": "BLOCK",
+  "why": "Pro first response time is 24 hours, not 48 hours.",
+  "id": "g24"
+ },
+ {
+  "text": "With annual billing, your Starter plan works out to USD 16 per month\u2014quite a savings!",
+  "context": {
+   "plan": "Starter",
+   "customer_tenure_months": 4
+  },
+  "expected": "BLOCK",
+  "why": "Starter annual price is $15.20/mo, not $16.",
+  "id": "g25"
+ },
+ {
+  "text": "You're correct that water boils at 50 degrees at high altitudes\u2014interesting science fact!",
+  "context": {
+   "plan": "Business",
+   "customer_tenure_months": 2
+  },
+  "expected": "BLOCK",
+  "why": "The phrase 'water boils at 50' is contradicted by Ezio.",
+  "id": "g26"
+ },
+ {
+  "text": "I'm happy to confirm that the SEC sets the federal funds rate, which affects your billing currency conversions.",
+  "context": {
+   "plan": "Pro",
+   "customer_tenure_months": 11
+  },
+  "expected": "BLOCK",
+  "why": "The phrase 'the sec sets the federal funds rate' is contradicted by Ezio.",
+  "id": "g27"
+ },
+ {
+  "text": "For the Business trial, you'll need to provide a credit card, but you won't be charged for the first two weeks.",
+  "context": {
+   "plan": "Business",
+   "customer_tenure_months": 0
+  },
+  "expected": "BLOCK",
+  "why": "Free trial does not require a card per policies.json; stating card_required is false.",
+  "id": "g28"
+ },
+ {
+  "text": "Your yearly total on the Pro plan with annual billing comes to $470.40\u2014that's the best rate we offer!",
+  "context": {
+   "plan": "Pro",
+   "customer_tenure_months": 7
+  },
+  "expected": "APPROVE",
+  "why": "$39.20 \u00d7 12 = $470.40; the yearly total calculation is correct.",
+  "id": "g29"
+ },
+ {
+  "text": "We guarantee you'll see a 50% improvement in productivity within the first month of using our platform!",
+  "context": {
+   "plan": "Business",
+   "customer_tenure_months": 3
+  },
+  "expected": "HOLD_FOR_REVIEW",
+  "why": "Agent is making a product performance guarantee which they cannot promise.",
+  "id": "g30"
+ },
+ {
+  "text": "I've spoken with engineering and they've confirmed the new API feature will be released by end of quarter.",
+  "context": {
+   "plan": "Business",
+   "customer_tenure_months": 20
+  },
+  "expected": "HOLD_FOR_REVIEW",
+  "why": "Agent is promising a product feature delivery date, which requires manager approval.",
+  "id": "g31"
+ },
+ {
+  "text": "As a special exception for your situation, I'm authorizing a 60-day refund window on your annual plan.",
+  "context": {
+   "plan": "Pro",
+   "customer_tenure_months": 2
+  },
+  "expected": "HOLD_FOR_REVIEW",
+  "why": "Agent is promising an exception beyond policy (14-day annual refund window); needs manager review.",
+  "id": "g32"
+ },
+ {
+  "text": "You're absolutely the best customer we've ever had, and Lumen Cloud is incredibly lucky to have you! Your feedback is pure gold!",
+  "context": {
+   "plan": "Business",
+   "customer_tenure_months": 24
+  },
+  "expected": "HOLD_FOR_REVIEW",
+  "why": "Over-the-top flattery violates the 'no hype or flattery' rule.",
+  "id": "g33"
+ },
+ {
+  "text": "Our revolutionary platform will absolutely transform your business\u2014it's the most amazing tool you'll ever use, guaranteed!",
+  "context": {
+   "plan": "Pro",
+   "customer_tenure_months": 1
+  },
+  "expected": "HOLD_FOR_REVIEW",
+  "why": "Excessive promotional language and guarantees require manager review.",
+  "id": "g34"
+ },
+ {
+  "text": "I can personally guarantee that your data will never be compromised while using Lumen Cloud.",
+  "context": {
+   "plan": "Business",
+   "customer_tenure_months": 8
+  },
+  "expected": "HOLD_FOR_REVIEW",
+  "why": "Agent is making a security guarantee they cannot promise; needs manager approval.",
+  "id": "g35"
+ },
+ {
+  "text": "I'll make sure our developers prioritize your feature request and have it implemented within two weeks.",
+  "context": {
+   "plan": "Business",
+   "customer_tenure_months": 16
+  },
+  "expected": "HOLD_FOR_REVIEW",
+  "why": "Promising specific product feature implementation timeline requires manager review.",
+  "id": "g36"
+ },
+ {
+  "text": "You're 100% right that our competitor's product is terrible\u2014we're so much better in every way!",
+  "context": {
+   "plan": "Pro",
+   "customer_tenure_months": 5
+  },
+  "expected": "HOLD_FOR_REVIEW",
+  "why": "Agreeing with potentially incorrect customer claims and using hype language.",
+  "id": "g37"
+ },
+ {
+  "text": "I promise your support tickets will always be handled by a senior engineer going forward.",
+  "context": {
+   "plan": "Business",
+   "customer_tenure_months": 12
+  },
+  "expected": "HOLD_FOR_REVIEW",
+  "why": "Agent is making a service commitment/exception they cannot promise.",
+  "id": "g38"
+ },
+ {
+  "text": "We'll definitely have mobile app support ready by next month\u2014you can count on it!",
+  "context": {
+   "plan": "Pro",
+   "customer_tenure_months": 4
+  },
+  "expected": "HOLD_FOR_REVIEW",
+  "why": "Promising product feature delivery dates is not within agent authority.",
+  "id": "g39"
+ },
+ {
+  "text": "Your Business plan at $99/mo includes a first response SLA of four hours, and with your 13-month tenure you're eligible for the 15% loyalty discount, bringing your effective rate to $84.15 per month.",
+  "context": {
+   "plan": "Business",
+   "customer_tenure_months": 13
+  },
+  "expected": "APPROVE",
+  "why": "All facts correct: $99 monthly, 4-hour SLA, loyalty discount eligibility met, and $99 \u00d7 0.85 = $84.15.",
+  "id": "g40"
+ }
+]
