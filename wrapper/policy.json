@@ -1,21 +1,37 @@
 {
-  "_help": "Your policy knobs. Every threshold needs a one-sentence 'why' (you'll be asked in the demo). evaluate.py warns while any 'why' still says TODO.",
-
+  "_help": "Policy knobs for the customer_support persona (Lumen Cloud). Strictest signal wins: BLOCK > HOLD_FOR_REVIEW > APPROVE.",
   "on_ezio_failure": "HOLD_FOR_REVIEW",
-  "on_ezio_failure_why": "TODO: if Ezio can't be reached, do you fail open (APPROVE) or fail closed (HOLD_FOR_REVIEW / BLOCK)? Why?",
-
-  "tier_decisions": { "GREEN": "APPROVE", "YELLOW": "HOLD_FOR_REVIEW", "RED": "BLOCK" },
-  "tier_decisions_why": "TODO: why does each tier map to that decision for your business?",
-
-  "dimension_minimums": {
-    "tone":      { "hold_below": 0, "why": "TODO" },
-    "bias":      { "hold_below": 0, "why": "TODO" },
-    "agreement": { "hold_below": 0, "why": "TODO" }
+  "on_ezio_failure_why": "If Ezio cannot be reached we fail closed to a human review, because an unsent email costs minutes while a wrong one costs trust.",
+  "tier_decisions": {
+    "GREEN": "APPROVE",
+    "YELLOW": "HOLD_FOR_REVIEW",
+    "RED": "BLOCK"
   },
-
+  "tier_decisions_why": "GREEN may send only if our own price and policy checks also pass, YELLOW needs a person, and RED means Ezio found a serious problem so it never goes to a customer.",
+  "dimension_minimums": {
+    "tone": {
+      "hold_below": 60,
+      "why": "Ezio marks tone under 60 as critical; one friendly '!' or an acronym like GDPR only costs 6 to 10 points, so 60 holds real hype without holding normal replies."
+    },
+    "bias": {
+      "hold_below": 80,
+      "why": "Each one-sided marker ('clearly', 'only way') costs 15 points, so under 80 means two or more and the email is pushing the customer instead of informing them."
+    },
+    "agreement": {
+      "hold_below": 80,
+      "why": "Any flattery or 'you're absolutely right' drops agreement below 80, and our rules say flattery and agreeing with a customer's claim go to a manager."
+    }
+  },
   "when_accuracy_not_scored": "ignore",
-  "when_accuracy_not_scored_why": "TODO: 'not scored' means no claims were checked. Is that a problem for your persona?",
-
+  "when_accuracy_not_scored_why": "Ezio cannot see our price sheet, so 'not scored' is normal; our own source-of-truth check covers those facts.",
   "when_accuracy_unavailable": "HOLD_FOR_REVIEW",
-  "when_accuracy_unavailable_why": "TODO: the fact-check service was down. What should happen?"
+  "when_accuracy_unavailable_why": "If the public fact-check is down we cannot rule out a wrong legal or regulatory claim, so a person reviews it.",
+  "on_unverifiable_claim": "HOLD_FOR_REVIEW",
+  "on_unverifiable_claim_why": "A public claim Ezio cannot verify is neither safe nor proven wrong, so a person checks it before it reaches a customer.",
+  "laya": {
+    "model": "english",
+    "hold_above": 0.8,
+    "load_wait_seconds": 20
+  },
+  "laya_why": "Optional and add-only: on the practice texts real promises scored 0.82 to 0.93 and good emails at most 0.44, so 0.80 holds a likely promise without holding normal replies; it never approves or blocks."
 }

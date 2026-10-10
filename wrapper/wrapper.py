@@ -15,12 +15,16 @@ from functools import lru_cache
 from pathlib import Path
 
 import audit
+from checks import build_checks
+import laya_signal
 import mock_actions
+import sot_customer_support
 from ezio_client import EzioError, analyze
 
 HERE = Path(__file__).resolve().parent
 PERSONAS = HERE.parent / "personas"
 POLICY = json.loads((HERE / "policy.json").read_text())
+laya_signal.start_loading()
 
 APPROVE, HOLD, BLOCK = "APPROVE", "HOLD_FOR_REVIEW", "BLOCK"
 RANK = {APPROVE: 0, HOLD: 1, BLOCK: 2}
@@ -41,10 +45,17 @@ class Signals:
     claims: list = field(default_factory=list)
 
 
-@dataclass
+@dataclass(frozen=True)
 class Finding:
     level: str
     message: str
+    signal: str = "data"
+    source: str = None
+    found: str = None
+    expected: str = None
+    sentence: int = None
+    quote: str = None
+    fix: dict = None
 
 
 @dataclass
@@ -53,6 +64,8 @@ class Decision:
     reason: str
     evidence: list
     ezio: dict
+    findings: list = field(default_factory=list)
+    checks: list = field(default_factory=list)
 
 
 def parse_signals(resp):
@@ -94,17 +107,27 @@ def load_source_of_truth(persona):
     return data
 
 
-def check_source_of_truth(text, context, sot):
-    """TODO: the part where use Ezio's results and Compare the text against your persona's data to Decisions.
+def check_source_of_truth(text, context, sot, persona="customer_support"):
+    """Compare the text against the persona's data. Returns a list of Finding(level, message)."""
+    if persona != "customer_support":
+        return []
+    return [Finding(**finding) for finding in sot_customer_support.check(text, context, sot)]
 
-    Return a list of Finding(level, message), where level is BLOCK or HOLD_FOR_REVIEW.
-    Return [] when nothing is wrong. Read your persona's business_rules.md first.
 
-    Example (customer support): pull "NN% loyalty discount" out of the text and compare it
-    with sot["policies"]["discounts"]["loyalty"]["percent"]:
-        return [Finding(BLOCK, "Loyalty discount is 15%, the email says 30%.")]
-    """
-    return []
+def ezio_claim_findings(signals):
+    """Ezio's own fact checks: a contradicted public claim is a BLOCK; supported claims need nothing more."""
+    findings = []
+    for claim in signals.claims:
+        if not isinstance(claim, dict):
+            continue
+        source = (claim.get("source") or {}).get("publisher", "Ezio")
+        if claim.get("verdict") == "contradicted":
+            findings.append(Finding(BLOCK, f"Ezio contradicted: '{claim.get('text', '')}' ({source})",
+                                    signal="ezio_claim", source=source, found=claim.get("text")))
+        elif claim.get("verdict") == "unverifiable":
+            findings.append(Finding(POLICY["on_unverifiable_claim"], f"Ezio could not verify: '{claim.get('text', '')}'",
+                                    signal="ezio_claim", source=source, found=claim.get("text")))
+    return findings
 
 
 def apply_policy(signals, findings, policy):
@@ -126,6 +149,8 @@ def apply_policy(signals, findings, policy):
         raise_to(policy["when_accuracy_not_scored"], "accuracy was not scored (no claims checked)")
     if signals.accuracy_status == "unavailable":
         raise_to(policy["when_accuracy_unavailable"], "fact-check was unavailable")
+    if signals.claims_contradicted and not any(f.level == BLOCK for f in findings):
+        raise_to(BLOCK, f"Ezio contradicted {signals.claims_contradicted} claim(s)")
     tier_decision = policy["tier_decisions"][signals.tier]
     if tier_decision != APPROVE:
         raise_to(tier_decision, f"Ezio tier is {signals.tier} ({signals.score})")
@@ -134,21 +159,41 @@ def apply_policy(signals, findings, policy):
     return reasons, decision
 
 
+def build_evidence(findings, signals):
+    """Findings first; otherwise record what was checked so every decision carries evidence."""
+    supported = [f"Ezio supported: '{c.get('text', '')}'" for c in signals.claims
+                 if isinstance(c, dict) and c.get("verdict") == "supported"]
+    checked = (f"Checked against price_sheet.csv and policies.json; Ezio {signals.tier} {signals.score}, "
+               f"accuracy {signals.accuracy_status}, tone {signals.tone}, bias {signals.bias}, agreement {signals.agreement}")
+    return [f.message for f in findings] + supported + [checked]
+
+
+def decide_without_ezio(text, context, persona, error):
+    """Ezio failed: never approve. Our own data can still prove a BLOCK."""
+    findings = check_source_of_truth(text, context, load_source_of_truth(persona), persona)
+    blocks = [f.message for f in findings if f.level == BLOCK]
+    decision = BLOCK if blocks else POLICY["on_ezio_failure"]
+    reason = "; ".join([f"Ezio unavailable: {error}"] + blocks)
+    evidence = [f.message for f in findings] + [f"Ezio error: {error}; failing closed per policy.json on_ezio_failure"]
+    checks = build_checks(findings, None, POLICY, "Laya not run while Ezio is unavailable; skipped")
+    return Decision(decision, reason, evidence, {"error": str(error), "response": error.response}, findings, checks)
+
+
 def decide(text, context=None, persona="customer_support", scenario=None, audit_log=True):
     context = context or {}
     try:
         response = analyze(text, scenario=scenario)
         signals = parse_signals(response)
     except EzioError as e:
-        result = Decision(POLICY["on_ezio_failure"], f"Ezio unavailable: {e}", [],
-                          {"error": str(e), "response": e.response})
+        result = decide_without_ezio(text, context, persona, e)
     else:
-        findings = check_source_of_truth(text, context, load_source_of_truth(persona))
+        laya_findings, laya_note = laya_signal.assess(text, POLICY)
+        findings = (check_source_of_truth(text, context, load_source_of_truth(persona), persona)
+                    + ezio_claim_findings(signals) + [Finding(level, message, signal="laya") for level, message in laya_findings])
         reasons, decision = apply_policy(signals, findings, POLICY)
-        result = Decision(
-            decision, "; ".join(reasons), [f.message for f in findings],
-            response,
-        )
+        evidence = build_evidence(findings, signals) + ([laya_note] if laya_note else [])
+        checks = build_checks(findings, signals, POLICY, laya_note)
+        result = Decision(decision, "; ".join(reasons), evidence, response, findings, checks)
     if audit_log:
         audit.record(persona, text, context, result)
     return result

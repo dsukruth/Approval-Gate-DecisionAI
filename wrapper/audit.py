@@ -2,6 +2,7 @@
 import json
 import os
 import threading
+from dataclasses import asdict
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -20,6 +21,8 @@ def record(persona, text, context, decision):
         "reason": decision.reason,
         "evidence": decision.evidence,
         "ezio": decision.ezio,
+        "findings": [asdict(f) for f in decision.findings],
+        "checks": decision.checks,
     }
     with _lock, LOG.open("a") as f:
         f.write(json.dumps(entry) + "\n")
