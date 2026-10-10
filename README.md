@@ -6,6 +6,30 @@ An **Ezio AI** participant starter for the Decision-Grade AI Buildathon. Build a
 
 > **This repository is fully self-contained.** Everything runs on your own laptop. You never expose your code to the network, and judges never set anything up: the final judging set is delivered to you in the last 30 minutes, and one command runs it against your wrapper. No live Ezio key, paid credits, or external dependencies are required. Python 3.9 or newer, standard library only.
 
+## Our wrapper: Lumen Cloud customer support
+
+Persona `customer_support`. Decision policy: [POLICY.md](POLICY.md).
+
+```bash
+# practice set + six failure drills
+python3 gate.py practice --persona customer_support
+
+# one email through the gate, with its mock send_email action
+python3 gate.py try --persona customer_support "The Pro plan is $49 per month."
+
+# persona page, wrapper and mock together for the demo
+python3 gate.py serve --persona customer_support
+
+# unit tests for our rules and policy
+cd wrapper && python3 -m unittest test_sot_customer_support test_wrapper_policy test_laya_signal test_checks
+```
+
+Optional Laya signal (needs `pip install laya` in `.venv-laya`; off by default, standard library run is unchanged):
+
+```bash
+LAYA_ENABLED=1 GATE_WRAPPER_CMD=".venv-laya/bin/python wrapper/serve.py" python3 gate.py practice --persona customer_support
+```
+
 ## Start here
 
 1. Choose a [business persona](personas/README.md).
